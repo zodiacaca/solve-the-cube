@@ -3,7 +3,7 @@ clearListener()
 resetMaxFile #noPrompt
 
 puzzleConfig = dotNetObject "System.Collections.Hashtable"
-puzzleConfig.Add "Steps" 12
+puzzleConfig.Add "Steps" 2
 puzzleConfig.Add "CrossOnly" false
 puzzleConfig.Add "Start" #("1","2","3","4","6","7","8","9", \
 							"A","C","D","E","F")
@@ -12,6 +12,7 @@ puzzleConfig.Add "FinalCover" #("1","2","3","4","6","7","8","9", \
 puzzleConfig.Add "FinalCross" #("2","4","6","8","A","C","E")
 
 formation = #()
+moves = #()
 method = #()
 result = #()
 struct roll
@@ -165,6 +166,7 @@ fn addTransformations =
 			(
 				form.Add formation[i][ii][1] formation[i][ii][2]
 			)
+			append moves ("_" + i as string)
 			append transformation form
 			append stepFormations[1] ("_" + i as string)
 		)
@@ -375,7 +377,7 @@ rollout ro1 "" width:240 height:240
 		local count = 1
 		while count <= puzzleConfig.Item["Steps"] and not found do
 		(
-			if count == 12 then
+			if count == 2 then
 			(
 				pb1.value = (count as float / puzzleConfig.Item["Steps"] as float * 100) as Integer
 				for i = 1 to stepFormations[count].count do
@@ -388,7 +390,7 @@ rollout ro1 "" width:240 height:240
 					(
 						appearance = applyTransformation appearance transformation[step[ii] as Integer]
 					)
-	/* 				local id = #("1","2","3","4","6","7","8","9", \
+					local id = #("1","2","3","4","6","7","8","9", \
 								"A","C","D","E","F")
 					local id2 = #("2","4","6","8","A","C","E")
 					local r = #()
@@ -406,29 +408,18 @@ rollout ro1 "" width:240 height:240
 						)
 						if (appendUnique result r) then
 						(
-							format "%\n" r
+-- 							format "%\n" r
 							append result r
+							local ms = ""
+							for s = 1 to step.count do
+							(
+								ms += moves[step[s] as Integer]
+							)
+							print ms
+							local ma = filterString ms "_"
+							print (phaseMove ma)
+							printAppearance appearance
 						)
-					) */
-					local xy = true
-					local id1 = #("2","4","6","8")
-					for i = 1 to id1.count do
-					(
-						if appearance.Item[id1[i]] != id1[i] do
-							xy = false
-					)
-					local yz = 0
-					local id2 = #("A","C","E")
-					for i = 1 to id2.count do
-					(
-						if appearance.Item[id2[i]] == id2[i] do
-							yz += 1
-					)
-					if xy and yz < 3 then
-					(
-						print stepFormations[count][i]
--- 						print (phaseMove stepFormations[count][i])
-						printAppearance appearance
 					)
 -- 				local match = checkAppearance appearance
 -- 				if match then
@@ -453,16 +444,17 @@ rollout ro1 "" width:240 height:240
 					(
 						for ii = 1 to stepFormations[count-1].count do
 						(
-							local step = filterString stepFormations[count-1][ii] "_"
-							local lastStep = step[step.count] as Integer
-							if i >= 4 and lastStep <= 3 then
-							(
-								append stepFormations[count] (stepFormations[count-1][ii] + "_" + i as string)
-							)
-							else if i <= 3 and lastStep >= 4 then
-							(
-								append stepFormations[count] (stepFormations[count-1][ii] + "_" + i as string)
-							)
+-- 							local step = filterString stepFormations[count-1][ii] "_"
+-- 							local lastStep = step[step.count] as Integer
+-- 							if i >= 4 and lastStep <= 3 then
+-- 							(
+-- 								append stepFormations[count] (stepFormations[count-1][ii] + "_" + i as string)
+-- 							)
+-- 							else if i <= 3 and lastStep >= 4 then
+-- 							(
+-- 								append stepFormations[count] (stepFormations[count-1][ii] + "_" + i as string)
+-- 							)
+							append stepFormations[count] (stepFormations[count-1][ii] + "_" + i as string)
 						)
 					)
 				)
@@ -553,6 +545,7 @@ rollout ro1 "" width:240 height:240
 		)
 		for i = 1 to (file_line.count / 5) do
 		(
+			local m = file_line[(i-1) * 5 + 1]
 			local r = roll file_line[(i-1) * 5 + 2] true
 			append method r
 			append ddlItems file_line[(i-1) * 5 + 2]
@@ -580,8 +573,9 @@ rollout ro1 "" width:240 height:240
 				local id = id_c[row + 2]
 				form.Add id c
 			)
--- 			append transformation form
--- 			append stepFormations[1] ("_" + (i + 6) as string)
+			append moves m
+			append transformation form
+			append stepFormations[1] ("_" + (i + 6) as string)
 			
 -- 			local mthd = file_line[(i-1) * 5 + 1]
 -- 			if findString mthd "2" == 1 then
