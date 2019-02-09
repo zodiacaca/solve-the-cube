@@ -543,7 +543,7 @@ rollout ro1 "" width:240 height:240
 		)
 		opForm = initializeAppearance()
 		
-		local file = openFile @"C:\Program Files\Autodesk\3ds Max 2012\Scripts\git\solve\r_a_2.txt"
+		local file = openFile @"C:\Program Files\Autodesk\3ds Max 2012\Scripts\solve\r_a_2.txt"
 		local file_line = #()
 		local num = 1
 		while not (eof file) do
