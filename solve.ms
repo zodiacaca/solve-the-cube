@@ -235,6 +235,13 @@ fn checkAppearance appear =
 	return true
 )
 
+fn getStepArray raw =
+(
+	local step = filterString raw "_"
+	
+	return step
+)
+
 fn phaseMove raw =
 (
 	local str = ""
@@ -383,7 +390,7 @@ rollout ro1 "" width:240 height:240
 			for i = 1 to stepFormations[count].count do
 			(
 				pb2.value = (i as float / stepFormations[count].count as float * 100) as Integer
-				local step = filterString stepFormations[count][i] "_"
+				local step = getStepArray stepFormations[count][i]
 				local appearance = initializeAppearance()
 -- 				format "%\n" step
 				for ii = 1 to step.count do
