@@ -379,59 +379,25 @@ rollout ro1 "" width:240 height:240
 		local count = 1
 		while count <= puzzleConfig.Item["Steps"] and not found do
 		(
-			if count == 2 then
+			pb1.value = (count as float / puzzleConfig.Item["Steps"] as float * 100) as Integer
+			for i = 1 to stepFormations[count].count do
 			(
-				pb1.value = (count as float / puzzleConfig.Item["Steps"] as float * 100) as Integer
-				for i = 1 to stepFormations[count].count do
+				pb2.value = (i as float / stepFormations[count].count as float * 100) as Integer
+				local step = filterString stepFormations[count][i] "_"
+				local appearance = initializeAppearance()
+-- 				format "%\n" step
+				for ii = 1 to step.count do
 				(
-					pb2.value = (i as float / stepFormations[count].count as float * 100) as Integer
-					local step = filterString stepFormations[count][i] "_"
-					local appearance = initializeAppearance()
-	-- 				format "%\n" step
-					for ii = 1 to step.count do
-					(
-						appearance = applyTransformation appearance transformation[step[ii] as Integer]
-					)
-					local id = #("1","2","3","4","6","7","8","9", \
-								"A","C","D","E","F")
-					local id2 = #("2","4","6","8","A","C","E")
-					local r = #()
-					local crossMatch = true
-					for j = 1 to id2.count do
-					(
-						if id2[j] != appearance.Item[id2[j]] do
-							crossMatch = false
-					)
-					if crossMatch then
-					(
-						for k = 1 to id.count do
-						(
-							append r appearance.Item[id[k]]
-						)
-						if (appendUnique result r) then
-						(
--- 							format "%\n" r
-							append result r
-							local ms = ""
-							for s = 1 to step.count do
-							(
-								ms += moves[step[s] as Integer]
-							)
-							print ms
-							local ma = filterString ms "_"
-							print (phaseMove ma)
-							printAppearance appearance
-						)
-					)
--- 				local match = checkAppearance appearance
--- 				if match then
--- 				(
--- 					print stepFormations[count][i]
--- 					print (phaseMove step)
--- 					printAppearance appearance
--- 					found = true
--- 					exit
--- 				)
+					appearance = applyTransformation appearance transformation[step[ii] as Integer]
+				)
+				local match = checkAppearance appearance
+				if match then
+				(
+					print stepFormations[count][i]
+					print (phaseMove step)
+					printAppearance appearance
+					found = true
+					exit
 				)
 			)
 			count += 1
@@ -446,16 +412,6 @@ rollout ro1 "" width:240 height:240
 					(
 						for ii = 1 to stepFormations[count-1].count do
 						(
--- 							local step = filterString stepFormations[count-1][ii] "_"
--- 							local lastStep = step[step.count] as Integer
--- 							if i >= 4 and lastStep <= 3 then
--- 							(
--- 								append stepFormations[count] (stepFormations[count-1][ii] + "_" + i as string)
--- 							)
--- 							else if i <= 3 and lastStep >= 4 then
--- 							(
--- 								append stepFormations[count] (stepFormations[count-1][ii] + "_" + i as string)
--- 							)
 							append stepFormations[count] (stepFormations[count-1][ii] + "_" + i as string)
 						)
 					)
@@ -575,74 +531,10 @@ rollout ro1 "" width:240 height:240
 				local id = id_c[row + 2]
 				form.Add id c
 			)
--- 			local idY = #("1","2","3","4","6","7","8","9", \
--- 						"A","C","D","E","F")
--- 			local idR = #("F","C","9","E","6","D","A","3", \
--- 						"8","2","7","4","1")
--- 			local new = initializeAppearance()
--- 			for s = 1 to idY.count do
--- 			(
--- 				for n = 1 to idY.count do
--- 				(
--- 					if form.Item[idY[s]] == idY[n] do
--- 						new.set_item idY[s] idR[n]
--- 				)
--- 			)
--- 			print m
--- 			local s = filterString m "_"
--- 			print (phaseMove s)
--- 			printAppearance new
-			
+
 -- 			append moves m
 -- 			append transformation form
 -- 			append stepFormations[1] ("_" + (i + 6) as string)
--- 			local id = #("1","2","3","4","6","7","8","9", \
--- 						"A","C","D","E","F")
--- 			local r = #()
--- 			for k = 1 to id.count do
--- 			(
--- 				append r form.Item[id[k]]
--- 			)
--- 			if (appendUnique result r) then
--- 			(
--- 				append result r
--- 			)
-			
--- 			local mthd = file_line[(i-1) * 5 + 1]
--- 			if findString mthd "2" == 1 then
--- 			(
--- 				for ii = 1 to 2 do
--- 				(
--- 					local p = (ii-1) * 4 + 1
--- 					mthd = replace mthd p 1 "1"
--- 				)
--- 				for ii = 1 to 2 do
--- 				(
--- 					local p = (ii-1) * 4 + 3
--- 					mthd = replace mthd p 1 "3"
--- 				)
--- 			)
--- 			else
--- 			(
--- 				for ii = 1 to 2 do
--- 				(
--- 					local p = (ii-1) * 4 + 2
--- 					mthd = replace mthd p 1 "1"
--- 				)
--- 				for ii = 1 to 2 do
--- 				(
--- 					local p = (ii-1) * 4 + 4
--- 					mthd = replace mthd p 1 "3"
--- 				)
--- 			)
--- 			local appearance = initializeAppearance()
--- 			for ii = 1 to mthd.count do
--- 			(
--- 				appearance = applyTransformation appearance transformation[mthd[ii] as Integer]
--- 			)
--- 			print mthd
--- 			print (phaseMove mthd)
--- 			printAppearance appearance
 		)
 
 		ddl1.items = ddlItems
@@ -654,30 +546,7 @@ rollout ro1 "" width:240 height:240
 -- 			if mod (i+5) 12 == 0 do
 -- 				rowC += 1
 -- 			visualizeAppearance ori transformation[i] [rowC * 70,-40 * (mod (i+5) 12),0]
--- 			print method[i].desc
--- 			printAppearance transformation[i]
 		)
-		
--- 		for i = 1 to 12 do
--- 		(
--- 			local appearance = initializeAppearance()
--- 			appearance = applyTransformation appearance transformation[1]
--- 			appearance = applyTransformation appearance transformation[i + 6]
--- 			appearance = applyTransformation appearance transformation[3]
--- 			print ("1" + "_180_" + "3")
--- 			print (method[1].desc + " " + method[i + 6].desc + " " + method[3].desc)
--- 			printAppearance appearance
--- 		)
--- 		for i = 1 to 12 do
--- 		(
--- 			local appearance = initializeAppearance()
--- 			appearance = applyTransformation appearance transformation[3]
--- 			appearance = applyTransformation appearance transformation[i + 6 + 12]
--- 			appearance = applyTransformation appearance transformation[1]
--- 			print ("3" + "_XY_" + "1")
--- 			print (method[3].desc + " " + method[i + 6 + 12].desc + " " + method[1].desc)
--- 			printAppearance appearance
--- 		)
 	)
 )
 
