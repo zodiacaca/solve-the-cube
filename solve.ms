@@ -7,6 +7,8 @@ puzzleConfig.Add "Steps" 2
 puzzleConfig.Add "CrossOnly" false
 puzzleConfig.Add "Start" #("1","2","3","4","6","7","8","9", \
 							"A","C","D","E","F")
+-- puzzleConfig.Add "Start" #("F","C","9","E","6","D","A","3", \
+-- 						"8","2","7","4","1")
 puzzleConfig.Add "FinalCover" #("1","2","3","4","6","7","8","9", \
 								"A","C","D","E","F")
 puzzleConfig.Add "FinalCross" #("2","4","6","8","A","C","E")
@@ -573,9 +575,38 @@ rollout ro1 "" width:240 height:240
 				local id = id_c[row + 2]
 				form.Add id c
 			)
-			append moves m
-			append transformation form
-			append stepFormations[1] ("_" + (i + 6) as string)
+-- 			local idY = #("1","2","3","4","6","7","8","9", \
+-- 						"A","C","D","E","F")
+-- 			local idR = #("F","C","9","E","6","D","A","3", \
+-- 						"8","2","7","4","1")
+-- 			local new = initializeAppearance()
+-- 			for s = 1 to idY.count do
+-- 			(
+-- 				for n = 1 to idY.count do
+-- 				(
+-- 					if form.Item[idY[s]] == idY[n] do
+-- 						new.set_item idY[s] idR[n]
+-- 				)
+-- 			)
+-- 			print m
+-- 			local s = filterString m "_"
+-- 			print (phaseMove s)
+-- 			printAppearance new
+			
+-- 			append moves m
+-- 			append transformation form
+-- 			append stepFormations[1] ("_" + (i + 6) as string)
+-- 			local id = #("1","2","3","4","6","7","8","9", \
+-- 						"A","C","D","E","F")
+-- 			local r = #()
+-- 			for k = 1 to id.count do
+-- 			(
+-- 				append r form.Item[id[k]]
+-- 			)
+-- 			if (appendUnique result r) then
+-- 			(
+-- 				append result r
+-- 			)
 			
 -- 			local mthd = file_line[(i-1) * 5 + 1]
 -- 			if findString mthd "2" == 1 then
