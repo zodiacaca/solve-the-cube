@@ -1,3 +1,21 @@
+fn printAppearance appear =
+(
+	format "% % % % %\n%   %   %\n% % % % %\n" \
+	appear.Item["1"] \
+	appear.Item["2"] \
+	appear.Item["3"] \
+	appear.Item["A"] \
+	appear.Item["D"] \
+	appear.Item["4"] \
+	appear.Item["6"] \
+	appear.Item["E"] \
+	appear.Item["7"] \
+	appear.Item["8"] \
+	appear.Item["9"] \
+	appear.Item["C"] \
+	appear.Item["F"]
+)
+
 fn appendUnique a obj =
 (
 	local unique = true
@@ -83,6 +101,7 @@ fn storeTransformation form =
 fn operateTransformation i =
 (
 	opForm = applyTransformation opForm transformation[i]
+	format "%\n"moves[i]
 	printAppearance opForm
 	for i = 1 to 10 do
 	(
@@ -128,24 +147,6 @@ fn phaseMove raw =
 	)
 	
 	return (substring str 1 (str.count - 1))
-)
-
-fn printAppearance appear =
-(
-	format "% % % % %\n%   %   %\n% % % % %\n" \
-	appear.Item["1"] \
-	appear.Item["2"] \
-	appear.Item["3"] \
-	appear.Item["A"] \
-	appear.Item["D"] \
-	appear.Item["4"] \
-	appear.Item["6"] \
-	appear.Item["E"] \
-	appear.Item["7"] \
-	appear.Item["8"] \
-	appear.Item["9"] \
-	appear.Item["C"] \
-	appear.Item["F"]
 )
 
 fn findOriIndex last newId =

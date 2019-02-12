@@ -330,9 +330,9 @@ rollout ro1 "" width:240 height:240
 		local rowC = 0
 		for i = 7 to transformation.count do
 		(
-			visualizeAppearance ori transformation[i] [rowC * 70,-40 * (mod (i+5) 12),0]
-			if mod (i+5) 12 == 0 do
-				rowC += 1
+-- 			visualizeAppearance ori transformation[i] [rowC * 70,-40 * (mod (i+5) 12),0]
+-- 			if mod (i+5) 12 == 0 do
+-- 				rowC += 1
 		)
 	)
 )
