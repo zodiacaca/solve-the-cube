@@ -83,7 +83,7 @@ fn addTransformations =
 			)
 			append moves ("_" + i as string)
 			append transformation form
-			append stepFormations[1] ("_" + i as string)
+-- 			append stepFormations[1] ("_" + i as string)
 		)
 		else
 		(
