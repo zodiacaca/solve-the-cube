@@ -16,6 +16,26 @@ fn printAppearance appear =
 	appear.Item["F"]
 )
 
+fn getStepArray raw =
+(
+	local step = filterString raw "_"
+	
+	return step
+)
+
+fn phaseMove raw =
+(
+	local str = ""
+	for i = 1 to raw.count do
+	(
+		str += "["
+		str += method[raw[i] as Integer].desc
+		str += "] "
+	)
+	
+	return (substring str 1 (str.count - 1))
+)
+
 fn appendUnique a obj =
 (
 	local unique = true
@@ -127,26 +147,6 @@ fn checkAppearance appear =
 	)
 
 	return true
-)
-
-fn getStepArray raw =
-(
-	local step = filterString raw "_"
-	
-	return step
-)
-
-fn phaseMove raw =
-(
-	local str = ""
-	for i = 1 to raw.count do
-	(
-		str += "["
-		str += method[raw[i] as Integer].desc
-		str += "] "
-	)
-	
-	return (substring str 1 (str.count - 1))
 )
 
 fn findOriIndex last newId =
