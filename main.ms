@@ -192,7 +192,7 @@ rollout ro1 "" width:240 height:240
 			if count <= puzzleConfig.Item["Steps"] then
 			(
 				stepFormations[count] = #()
-				for i = 1 to transformation.count do
+				for i = 7 to transformation.count do
 				(
 					pb2.value = (i as float / transformation.count as float * 100) as Integer
 					if method[i].use then
@@ -323,6 +323,7 @@ rollout ro1 "" width:240 height:240
 -- 			append transformation form
 -- 			append stepFormations[1] ("_" + (i + 6) as string)
 		)
+		free file
 
 		ddl1.items = ddlItems
 		spn1.value = puzzleConfig.Item["Steps"]
