@@ -122,7 +122,7 @@ stepFormations = #()
 opForm = undefined
 obCam = undefined
 
-rollout ro1 "" width:240 height:240
+rollout ro1 "" width:650 height:400
 (
 	include "scripts\\solve\\functions.ms"
 	
@@ -253,5 +253,5 @@ rollout ro1 "" width:240 height:240
 )
 
 if roFloater != undefined do closeRolloutFloater roFloater
-roFloater = newRolloutFloater "" 650 240 30 100
+roFloater = newRolloutFloater "" 650 400 30 100
 addRollout ro1 roFloater
