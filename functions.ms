@@ -231,3 +231,15 @@ fn visualizeAppearance last form pos tile =
 	)
 	obCam.pos = pos + [0,-15,200]
 )
+
+fn visualizeAppearances =
+(
+	local ori = initializeAppearance()
+	local rowC = 0
+	for i = 7 to transformation.count do
+	(
+		visualizeAppearance ori transformation[i] [rowC * 70,-40 * (mod (i+5) 12),0] false
+		if mod (i+5) 12 == 0 do
+			rowC += 1
+	)
+)

@@ -7,8 +7,6 @@ puzzleConfig.Add "Steps" 2
 puzzleConfig.Add "CrossOnly" false
 puzzleConfig.Add "Start" #("1","2","3","4","6","7","8","9", \
 							"A","C","D","E","F")
--- puzzleConfig.Add "Start" #("F","C","9","E","6","D","A","3", \
--- 						"8","2","7","4","1")
 puzzleConfig.Add "FinalCover" #("1","2","3","4","6","7","8","9", \
 								"A","C","D","E","F")
 puzzleConfig.Add "FinalCross" #("2","4","6","8","A","C","E")
@@ -16,7 +14,7 @@ puzzleConfig.Add "FinalCross" #("2","4","6","8","A","C","E")
 formation = #()
 moves = #()
 method = #()
-result = #()
+alter = #()
 struct roll
 (
 	desc,
@@ -129,7 +127,7 @@ rollout ro1 "" width:240 height:240
 	include "scripts\\solve\\functions.ms"
 	
 	local found = false
-	local visualCount = 0
+	local dCount = 0
 
 	progressBar pb1 "" pos:[5,10] width:215 height:15 \
 	value:0 \
@@ -138,28 +136,7 @@ rollout ro1 "" width:240 height:240
 	value:0 \
 	color:(color 0 255 0)
 	
-	groupBox grp2 "" pos:[5,50] width:215 height:60
-	
-	radioButtons rdo1 "" pos:[15,85] width:100 height:20 \
-	labels:#("Cover", "Cross")
-	on rdo1 changed stat do
-	(
-		if stat == 1 then
-		(
-			puzzleConfig.set_item "CrossOnly" false
-		)
-		else
-		(
-			puzzleConfig.set_item "CrossOnly" true
-		)
-	)
-	
-	spinner spn1 "Steps:" pos:[45,65] width:50 height:18 \
-	type:#integer scale:1
-	on spn1 changed val do
-	(
-		puzzleConfig.set_item "Steps" val
-	)
+	include "scripts\\solve\\ro_cfg.ms"
 
 	button btn1 "" pos:[70,120] width:80 height:30
 	on btn1 pressed do
@@ -209,67 +186,7 @@ rollout ro1 "" width:240 height:240
 		)
 	)
 	
-	groupBox grp1 "" pos:[235,0] width:395 height:175
-	
-	dropDownList ddl1 "" pos:[245,15] width:375 height:30
-	on ddl1 selected sel do
-	(
-		local ori = storeTransformation opForm
-		operateTransformation ddl1.selection
-		visualizeAppearance ori opForm [0,-visualCount*40,0] true
-		visualCount += 1
-	)
-	groupBox grp3 "" pos:[245,40] width:160 height:125
-	local bPosX = 255
-	local bPosY = 55
-	button btnT1 "T 90 (1)" pos:[bPosX,bPosY] width:60 height:30
-	on btnT1 pressed do
-	(
-		local ori = storeTransformation opForm
-		operateTransformation 1
-		visualizeAppearance ori opForm [0,-visualCount*40,0] true
-		visualCount += 1
-	)
-	button btnT2 "T 180 (2)" pos:[bPosX,bPosY+35] width:60 height:30
-	on btnT2 pressed do
-	(
-		local ori = storeTransformation opForm
-		operateTransformation 2
-		visualizeAppearance ori opForm [0,-visualCount*40,0] true
-		visualCount += 1
-	)
-	button btnT3 "T -90 (3)" pos:[bPosX,bPosY+35*2] width:60 height:30
-	on btnT3 pressed do
-	(
-		local ori = storeTransformation opForm
-		operateTransformation 3
-		visualizeAppearance ori opForm [0,-visualCount*40,0] true
-		visualCount += 1
-	)
-	button btnR1 "R 90 (4)" pos:[bPosX+80,bPosY] width:60 height:30
-	on btnR1 pressed do
-	(
-		local ori = storeTransformation opForm
-		operateTransformation 4
-		visualizeAppearance ori opForm [0,-visualCount*40,0] true
-		visualCount += 1
-	)
-	button btnR2 "R 180 (5)" pos:[bPosX+80,bPosY+35] width:60 height:30
-	on btnR2 pressed do
-	(
-		local ori = storeTransformation opForm
-		operateTransformation 5
-		visualizeAppearance ori opForm [0,-visualCount*40,0] true
-		visualCount += 1
-	)
-	button btnR3 "R -90 (6)" pos:[bPosX+80,bPosY+35*2] width:60 height:30
-	on btnR3 pressed do
-	(
-		local ori = storeTransformation opForm
-		operateTransformation 6
-		visualizeAppearance ori opForm [0,-visualCount*40,0] true
-		visualCount += 1
-	)
+	include "scripts\\solve\\ro_ops.ms"
 
 	on ro1 open do
 	(
@@ -331,14 +248,7 @@ rollout ro1 "" width:240 height:240
 
 		ddl1.items = ddlItems
 		spn1.value = puzzleConfig.Item["Steps"]
-		local ori = initializeAppearance()
-		local rowC = 0
-		for i = 7 to transformation.count do
-		(
--- 			visualizeAppearance ori transformation[i] [rowC * 70,-40 * (mod (i+5) 12),0] false
--- 			if mod (i+5) 12 == 0 do
--- 				rowC += 1
-		)
+-- 		visualizeAppearances()
 	)
 )
 
