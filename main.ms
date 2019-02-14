@@ -122,6 +122,7 @@ formation[6] = #(
 transformation = #()
 stepFormations = #()
 opForm = undefined
+obCam = undefined
 
 rollout ro1 "" width:240 height:240
 (
@@ -199,7 +200,7 @@ rollout ro1 "" width:240 height:240
 					(
 						for ii = 1 to stepFormations[count-1].count do
 						(
-							append stepFormations[count] (stepFormations[count-1][ii] + "_" + i as string)
+							append stepFormations[count] (stepFormations[count-1][ii] + "--" + i as string)
 						)
 					)
 				)
@@ -215,58 +216,58 @@ rollout ro1 "" width:240 height:240
 	(
 		local ori = storeTransformation opForm
 		operateTransformation ddl1.selection
-		visualizeAppearance ori opForm [0,-visualCount*40,0]
+		visualizeAppearance ori opForm [0,-visualCount*40,0] true
 		visualCount += 1
 	)
 	groupBox grp3 "" pos:[245,40] width:160 height:125
 	local bPosX = 255
 	local bPosY = 55
-	button btnT1 "T 90" pos:[bPosX,bPosY] width:60 height:30
+	button btnT1 "T 90 (1)" pos:[bPosX,bPosY] width:60 height:30
 	on btnT1 pressed do
 	(
 		local ori = storeTransformation opForm
 		operateTransformation 1
-		visualizeAppearance ori opForm [0,-visualCount*40,0]
+		visualizeAppearance ori opForm [0,-visualCount*40,0] true
 		visualCount += 1
 	)
-	button btnT2 "T 180" pos:[bPosX,bPosY+35] width:60 height:30
+	button btnT2 "T 180 (2)" pos:[bPosX,bPosY+35] width:60 height:30
 	on btnT2 pressed do
 	(
 		local ori = storeTransformation opForm
 		operateTransformation 2
-		visualizeAppearance ori opForm [0,-visualCount*40,0]
+		visualizeAppearance ori opForm [0,-visualCount*40,0] true
 		visualCount += 1
 	)
-	button btnT3 "T -90" pos:[bPosX,bPosY+35*2] width:60 height:30
+	button btnT3 "T -90 (3)" pos:[bPosX,bPosY+35*2] width:60 height:30
 	on btnT3 pressed do
 	(
 		local ori = storeTransformation opForm
 		operateTransformation 3
-		visualizeAppearance ori opForm [0,-visualCount*40,0]
+		visualizeAppearance ori opForm [0,-visualCount*40,0] true
 		visualCount += 1
 	)
-	button btnR1 "R 90" pos:[bPosX+80,bPosY] width:60 height:30
+	button btnR1 "R 90 (4)" pos:[bPosX+80,bPosY] width:60 height:30
 	on btnR1 pressed do
 	(
 		local ori = storeTransformation opForm
 		operateTransformation 4
-		visualizeAppearance ori opForm [0,-visualCount*40,0]
+		visualizeAppearance ori opForm [0,-visualCount*40,0] true
 		visualCount += 1
 	)
-	button btnR2 "R 180" pos:[bPosX+80,bPosY+35] width:60 height:30
+	button btnR2 "R 180 (5)" pos:[bPosX+80,bPosY+35] width:60 height:30
 	on btnR2 pressed do
 	(
 		local ori = storeTransformation opForm
 		operateTransformation 5
-		visualizeAppearance ori opForm [0,-visualCount*40,0]
+		visualizeAppearance ori opForm [0,-visualCount*40,0] true
 		visualCount += 1
 	)
-	button btnR3 "R -90" pos:[bPosX+80,bPosY+35*2] width:60 height:30
+	button btnR3 "R -90 (6)" pos:[bPosX+80,bPosY+35*2] width:60 height:30
 	on btnR3 pressed do
 	(
 		local ori = storeTransformation opForm
 		operateTransformation 6
-		visualizeAppearance ori opForm [0,-visualCount*40,0]
+		visualizeAppearance ori opForm [0,-visualCount*40,0] true
 		visualCount += 1
 	)
 
@@ -279,6 +280,10 @@ rollout ro1 "" width:240 height:240
 			append ddlItems method[i].desc
 		)
 		opForm = initializeAppearance()
+		obCam = freecamera pos:[0,0,200]
+		viewport.setLayout #layout_1
+		viewport.setType #view_top
+		viewport.setCamera obCam
 		
 		local file = openFile @"C:\Program Files\Autodesk\3ds Max 2012\Scripts\solve\t_2.txt"
 		local file_line = #()
@@ -321,7 +326,7 @@ rollout ro1 "" width:240 height:240
 
 -- 			append moves m
 -- 			append transformation form
--- 			append stepFormations[1] ("_" + (i + 6) as string)
+-- 			append stepFormations[1] ("--" + (i + 6) as string)
 		)
 
 		ddl1.items = ddlItems
@@ -330,7 +335,7 @@ rollout ro1 "" width:240 height:240
 		local rowC = 0
 		for i = 7 to transformation.count do
 		(
--- 			visualizeAppearance ori transformation[i] [rowC * 70,-40 * (mod (i+5) 12),0]
+-- 			visualizeAppearance ori transformation[i] [rowC * 70,-40 * (mod (i+5) 12),0] false
 -- 			if mod (i+5) 12 == 0 do
 -- 				rowC += 1
 		)

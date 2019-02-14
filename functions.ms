@@ -18,7 +18,7 @@ fn printAppearance appear =
 
 fn getStepArray raw =
 (
-	local step = filterString raw "_"
+	local step = filterString raw "--"
 	
 	return step
 )
@@ -81,9 +81,9 @@ fn addTransformations =
 			(
 				form.Add formation[i][ii][1] formation[i][ii][2]
 			)
-			append moves ("_" + i as string)
+			append moves ("--" + i as string)
 			append transformation form
--- 			append stepFormations[1] ("_" + i as string)
+-- 			append stepFormations[1] ("--" + i as string)
 		)
 		else
 		(
@@ -166,7 +166,7 @@ fn findOriIndex last newId =
 	return index
 )
 
-fn visualizeAppearance last form pos =
+fn visualizeAppearance last form pos tile =
 (
 	local id = #("1","2","3","4","6","7","8","9", \
 				"A","C","D","E","F")
@@ -206,17 +206,28 @@ fn visualizeAppearance last form pos =
 	(
 		t = text text:form.Item[id[i]] \
 		size:10 wirecolor:norCol pos:(pos+tPos[i])
-		if form.Item[id[i]] != last.Item[id[i]] then
+		if tile then
 		(
-			t.wirecolor = altCol
-			local index = findOriIndex last form.Item[id[i]]
-			local oldPos = cPos[index]
-			ss = SplineShape wirecolor:[255,255,0] pos:(pos+oldPos-[0,4,0])
-			addNewSpline ss
-			addKnot ss 1 #corner #line (pos+oldPos-[0,4,0])
-			addKnot ss 1 #corner #line (pos+cPos[i])
-			updateShape ss
-			ra = rectangle width:0.5 length:0.5 wirecolor:[255,255,0] pos:(pos+cPos[i])
+			if form.Item[id[i]] == id[i] then
+			(
+				t.wirecolor = [0,150,200]
+			)
+		)
+		else
+		(
+			if form.Item[id[i]] != last.Item[id[i]] then
+			(
+				t.wirecolor = altCol
+				local index = findOriIndex last form.Item[id[i]]
+				local oldPos = cPos[index]
+				ss = SplineShape wirecolor:[255,255,0] pos:(pos+oldPos-[0,4,0])
+				addNewSpline ss
+				addKnot ss 1 #corner #line (pos+oldPos-[0,4,0])
+				addKnot ss 1 #corner #line (pos+cPos[i])
+				updateShape ss
+				ra = rectangle width:0.5 length:0.5 wirecolor:[255,255,0] pos:(pos+cPos[i])
+			)
 		)
 	)
+	obCam.pos = pos + [0,-15,200]
 )
