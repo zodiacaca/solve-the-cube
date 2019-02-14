@@ -122,6 +122,8 @@ stepFormations = #()
 opForm = undefined
 obCam = undefined
 
+id = #("1","2","3","4","6","7","8","9","A","C","D","E","F")
+
 rollout ro1 "" width:650 height:400
 (
 	include "scripts\\solve\\functions.ms"

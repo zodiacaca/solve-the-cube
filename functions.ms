@@ -58,9 +58,6 @@ fn initializeAppearance =
 (
 	local appearance = dotNetObject "System.Collections.Hashtable"
 
-	local id = #("1","2","3","4","6","7","8","9", \
-				"A","C","D","E","F")
-
 	for i = 1 to id.count do
 	(
 		appearance.Add id[i] puzzleConfig.Item["Start"][i]
@@ -94,8 +91,6 @@ fn addTransformations =
 
 fn applyTransformation old form =
 (
-	local id = #("1","2","3","4","6","7","8","9", \
-				"A","C","D","E","F")
 	local new = dotNetObject "System.Collections.Hashtable"
 	for i = 1 to id.count do
 	(
@@ -107,8 +102,6 @@ fn applyTransformation old form =
 
 fn storeTransformation form =
 (
-	local id = #("1","2","3","4","6","7","8","9", \
-				"A","C","D","E","F")
 	local old = dotNetObject "System.Collections.Hashtable"
 	for i = 1 to id.count do
 	(
@@ -132,8 +125,6 @@ fn operateTransformation i =
 
 fn checkAppearance appear =
 (
-	local id = #("1","2","3","4","6","7","8","9", \
-				"A","C","D","E","F")
 	local alt = puzzleConfig.Item["FinalCover"]
 	if puzzleConfig.Item["CrossOnly"] then
 	(
@@ -151,8 +142,6 @@ fn checkAppearance appear =
 
 fn findOriIndex last newId =
 (
-	local id = #("1","2","3","4","6","7","8","9", \
-				"A","C","D","E","F")
 	local index = 1
 	for i = 1 to id.count do
 	(
@@ -168,8 +157,6 @@ fn findOriIndex last newId =
 
 fn visualizeAppearance last form pos tile =
 (
-	local id = #("1","2","3","4","6","7","8","9", \
-				"A","C","D","E","F")
 	local tPos = #(
 		[5,-8.5,0],
 		[15,-8.5,0],
