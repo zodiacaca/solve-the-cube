@@ -130,6 +130,8 @@ rollout ro1 "" width:650 height:400
 	
 	local found = false
 	local dCount = 0
+	local pCount = 1
+	local ops = #()
 
 	progressBar pb1 "" pos:[5,10] width:215 height:15 \
 	value:0 \
@@ -143,49 +145,36 @@ rollout ro1 "" width:650 height:400
 	button btn1 "" pos:[70,120] width:80 height:30
 	on btn1 pressed do
 	(
-		local count = 1
-		while count <= puzzleConfig.Item["Steps"] and not found do
+		appear = initializeAppearance()
+		if pCount == 1 then
 		(
-			pb1.value = (count as float / puzzleConfig.Item["Steps"] as float * 100) as Integer
-			for i = 1 to stepFormations[count].count do
+			for i = 1 to 20 do
 			(
-				pb2.value = (i as float / stepFormations[count].count as float * 100) as Integer
-				local step = getStepArray stepFormations[count][i]
-				local appearance = initializeAppearance()
--- 				format "%\n" step
-				for ii = 1 to step.count do
-				(
-					appearance = applyTransformation appearance transformation[step[ii] as Integer]
-				)
-				local match = checkAppearance appearance
-				if match then
-				(
-					print stepFormations[count][i]
-					print (phaseMove step)
-					printAppearance appearance
-					found = true
-					exit
-				)
+				local ori = storeTransformation appear
+				num = random 1 6
+				append ops num
+				appear = applyTransformation appear transformation[num]
+				visualizeAppearance ori appear [0,-(i-1)*40,0] true
 			)
-			count += 1
-			print stepFormations[count-1].count
-			if count <= puzzleConfig.Item["Steps"] then
+			
+			pCount += 1
+			
+			local new_id = #()
+			for i = 1 to id.count do
 			(
-				stepFormations[count] = #()
-				for i = 1 to transformation.count do
-				(
-					pb2.value = (i as float / transformation.count as float * 100) as Integer
-					if method[i].use then
-					(
-						for ii = 1 to stepFormations[count-1].count do
-						(
-							append stepFormations[count] (stepFormations[count-1][ii] + "--" + i as string)
-						)
-					)
-				)
-				free stepFormations[count-1]
+				append new_id appear.Item[id[i]]
 			)
+			puzzleConfig.set_item "Start" new_id
 		)
+		else if pCount == 2 do
+		(
+			
+			
+			pCount += 1
+		)
+		printAppearance appear
+		new_appear = initializeAppearance()
+		printAppearance new_appear
 	)
 	
 	include "scripts\\solve\\ro_ops.ms"
@@ -243,18 +232,18 @@ rollout ro1 "" width:650 height:400
 				form.Add id c
 			)
 			
-			local a = #()
-			for j = 1 to id.count do
-			(
-				append a form.Item[id[j]]
-			)
-			if (appendUnique alter a) then
-			(
-				append alter a
-				print m
-				print file_line[(i-1) * 5 + 2]
-				printAppearance form
-			)
+-- 			local a = #()
+-- 			for j = 1 to id.count do
+-- 			(
+-- 				append a form.Item[id[j]]
+-- 			)
+-- 			if (appendUnique alter a) then
+-- 			(
+-- 				append alter a
+-- 				print m
+-- 				print file_line[(i-1) * 5 + 2]
+-- 				printAppearance form
+-- 			)
 
 			append moves m
 			append transformation form

@@ -193,7 +193,7 @@ fn visualizeAppearance last form pos tile =
 	(
 		t = text text:form.Item[id[i]] \
 		size:10 wirecolor:norCol pos:(pos+tPos[i])
-		if tile then
+		if not tile then
 		(
 			if form.Item[id[i]] == id[i] then
 			(
@@ -225,7 +225,7 @@ fn visualizeAppearances =
 	local rowC = 0
 	for i = 7 to transformation.count do
 	(
-		visualizeAppearance ori transformation[i] [rowC * 70,-40 * (mod (i+5) 12),0] false
+		visualizeAppearance ori transformation[i] [rowC * 70,-40 * (mod (i+5) 12),0] true
 		if mod (i+5) 12 == 0 do
 			rowC += 1
 	)
