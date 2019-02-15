@@ -204,7 +204,7 @@ rollout ro1 "" width:650 height:400
 		viewport.setType #view_top
 		viewport.setCamera obCam
 		
-		local file = openFile @"C:\Program Files\Autodesk\3ds Max 2012\Scripts\solve\t_2.txt"
+		local file = openFile @"C:\Program Files\Autodesk\3ds Max 2012\Scripts\solve\t_2+3.txt"
 		local file_line = #()
 		local num = 1
 		while not (eof file) do
@@ -243,9 +243,9 @@ rollout ro1 "" width:650 height:400
 				form.Add id c
 			)
 
--- 			append moves m
--- 			append transformation form
--- 			append stepFormations[1] ("--" + (i + 6) as string)
+			append moves m
+			append transformation form
+			append stepFormations[1] ("--" + (i + 6) as string)
 		)
 		free file
 
