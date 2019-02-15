@@ -247,6 +247,7 @@ rollout ro1 "" width:650 height:400
 -- 			append transformation form
 -- 			append stepFormations[1] ("--" + (i + 6) as string)
 		)
+		free file
 
 		ddl1.items = ddlItems
 		spn1.value = puzzleConfig.Item["Steps"]
