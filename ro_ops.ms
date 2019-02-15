@@ -15,7 +15,7 @@ button btnT1 "T 90 (1)" pos:[bPosX,bPosY] width:60 height:30
 on btnT1 pressed do
 (
 	local appear = initializeAppearance()
-	local ori = storeTransformation form
+	local ori = storeTransformation appear
 	appear = applyTransformation appear transformation[1]
 	local new_id = #()
 	for i = 1 to id.count do
@@ -30,7 +30,7 @@ button btnT2 "T 180 (2)" pos:[bPosX,bPosY+35] width:60 height:30
 on btnT2 pressed do
 (
 	local appear = initializeAppearance()
-	local ori = storeTransformation form
+	local ori = storeTransformation appear
 	appear = applyTransformation appear transformation[2]
 	local new_id = #()
 	for i = 1 to id.count do
@@ -45,7 +45,7 @@ button btnT3 "T -90 (3)" pos:[bPosX,bPosY+35*2] width:60 height:30
 on btnT3 pressed do
 (
 	local appear = initializeAppearance()
-	local ori = storeTransformation form
+	local ori = storeTransformation appear
 	appear = applyTransformation appear transformation[3]
 	local new_id = #()
 	for i = 1 to id.count do
@@ -60,7 +60,7 @@ button btnR1 "R 90 (4)" pos:[bPosX+80,bPosY] width:60 height:30
 on btnR1 pressed do
 (
 	local appear = initializeAppearance()
-	local ori = storeTransformation form
+	local ori = storeTransformation appear
 	appear = applyTransformation appear transformation[4]
 	local new_id = #()
 	for i = 1 to id.count do
@@ -75,7 +75,7 @@ button btnR2 "R 180 (5)" pos:[bPosX+80,bPosY+35] width:60 height:30
 on btnR2 pressed do
 (
 	local appear = initializeAppearance()
-	local ori = storeTransformation form
+	local ori = storeTransformation appear
 	appear = applyTransformation appear transformation[5]
 	local new_id = #()
 	for i = 1 to id.count do
@@ -90,7 +90,7 @@ button btnR3 "R -90 (6)" pos:[bPosX+80,bPosY+35*2] width:60 height:30
 on btnR3 pressed do
 (
 	local appear = initializeAppearance()
-	local ori = storeTransformation form
+	local ori = storeTransformation appear
 	appear = applyTransformation appear transformation[6]
 	local new_id = #()
 	for i = 1 to id.count do

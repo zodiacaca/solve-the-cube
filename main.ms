@@ -146,6 +146,7 @@ rollout ro1 "" width:650 height:400
 	on btn1 pressed do
 	(
 		appear = initializeAppearance()
+		crossMatch = false
 		if pCount == 1 then
 		(
 			for i = 1 to 20 do
@@ -168,13 +169,32 @@ rollout ro1 "" width:650 height:400
 		)
 		else if pCount == 2 do
 		(
-			
+			while not crossMatch do
+			(
+				num = random 7 transformation.count
+				a = initializeAppearance()
+				a = applyTransformation a transformation[num]
+				new_id = #()
+				for i = 1 to id.count do
+				(
+					append new_id a.Item[id[i]]
+				)
+				puzzleConfig.set_item "Start" new_id
+				append ops num
+				visualizeAppearance undefined a [0,-(ops.count-1)*40,0] false
+				id2 = #("2","4","6","8","A","C","E")
+				cm = true
+				for j = 1 to id2.count do
+				(
+					if id2[j] != a.Item[id2[j]] do
+						cm = false
+				)
+				if cm do
+					crossMatch = true
+			)
 			
 			pCount += 1
 		)
-		printAppearance appear
-		new_appear = initializeAppearance()
-		printAppearance new_appear
 	)
 	
 	include "scripts\\solve\\ro_ops.ms"
