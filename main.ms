@@ -242,6 +242,19 @@ rollout ro1 "" width:650 height:400
 				local id = id_c[row + 2]
 				form.Add id c
 			)
+			
+			local a = #()
+			for j = 1 to id.count do
+			(
+				append a form.Item[id[j]]
+			)
+			if (appendUnique alter a) then
+			(
+				append alter a
+				print m
+				print file_line[(i-1) * 5 + 2]
+				printAppearance form
+			)
 
 			append moves m
 			append transformation form
