@@ -13,6 +13,7 @@ puzzleConfig.Add "FinalCross" #("2","4","6","8","A","C","E")
 
 formation = #()
 moves = #()
+alterMoves = #()
 method = #()
 alter = #()
 struct roll
@@ -118,6 +119,7 @@ formation[6] = #(
 )
 
 transformation = #()
+alterTransformation = #()
 stepFormations = #()
 opForm = undefined
 obCam = undefined
@@ -147,6 +149,7 @@ rollout ro1 "" width:650 height:400
 	(
 		appear = initializeAppearance()
 		crossMatch = false
+		match = false
 		if pCount == 1 then
 		(
 			for i = 1 to 20 do
@@ -167,7 +170,7 @@ rollout ro1 "" width:650 height:400
 			)
 			puzzleConfig.set_item "Start" new_id
 		)
-		else if pCount == 2 do
+		else if pCount == 2 then
 		(
 			while not crossMatch do
 			(
@@ -191,6 +194,29 @@ rollout ro1 "" width:650 height:400
 				)
 				if cm do
 					crossMatch = true
+			)
+			
+			pCount += 1
+		)
+		else if pCount == 3 then
+		(
+			for i = 1 to alterTransformation.count do
+			(
+				a = initializeAppearance()
+				a = applyTransformation a alterTransformation[i]
+				m = checkAppearance a
+				if m then
+				(
+					str = ""
+					for ii = 1 to ops.count do
+					(
+						str += moves[ops[ii]]
+					)
+					str += alterMoves[i]
+					print str
+					match = true
+					exit
+				)
 			)
 			
 			pCount += 1
@@ -268,6 +294,47 @@ rollout ro1 "" width:650 height:400
 			append moves m
 			append transformation form
 			append stepFormations[1] ("--" + (i + 6) as string)
+		)
+		free file
+		
+		file = openFile @"C:\Program Files\Autodesk\3ds Max 2012\Scripts\solve\alters.txt"
+		file_line = #()
+		num = 1
+		while not (eof file) do
+		(
+			file_line[num] = readLine file
+			num += 1
+		)
+		for i = 1 to (file_line.count / 5) do
+		(
+			local m = file_line[(i-1) * 5 + 1]
+			local form = dotNetObject "System.Collections.Hashtable"
+			for row = 1 to 3 do
+			(
+				for col = 1 to 3 do
+				(
+					local l = file_line[(i-1) * 5 + 2 + row]
+					local c = l[(col - 1) * 2 + 1]
+					local id = (row - 1) * 3 + col
+					if not (row == 2 and col == 2) do
+						form.Add (id as string) c
+				)
+			)
+			local id_c = #("A","C","D","E","F")
+			local l1 = file_line[(i-1) * 5 + 3]
+			form.Add "A" l1[l1.count - 2]
+			local l2 = file_line[(i-1) * 5 + 5]
+			form.Add "C" l2[l2.count - 2]
+			for row = 1 to 3 do
+			(
+				local l = file_line[(i-1) * 5 + 2 + row]
+				local c = l[l.count]
+				local id = id_c[row + 2]
+				form.Add id c
+			)
+			
+			append alterMoves m
+			append alterTransformation form
 		)
 		free file
 
