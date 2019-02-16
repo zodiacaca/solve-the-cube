@@ -201,15 +201,22 @@ rollout ro1 "" width:650 height:400
 		)
 		else if pCount == 3 then
 		(
-			a = initializeAppearance()
-			aa = #()
-			for j = 1 to id.count do
+			for i = 1 to alterTransformation.count do
 			(
-				append aa a.Item[id[j]]
+				a = initializeAppearance()
+				a = applyTransformation a alterTransformation[i]
+				aa = #()
+				for j = 1 to id.count do
+				(
+					append aa a.Item[id[j]]
+				)
+				if (appendUnique alternative aa) then
+				(
+					print ""
+					print ""
+					printAppearance a
+				)
 			)
-			printAppearance a
-			print (appendUnique alternative aa)
-			setclipboardText (a.Item["1"] + " " + a.Item["2"] + " " + a.Item["3"])
 			
 			pCount += 1
 		)
