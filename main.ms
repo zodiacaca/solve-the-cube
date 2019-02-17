@@ -205,16 +205,18 @@ rollout ro1 "" width:650 height:400
 			(
 				a = initializeAppearance()
 				a = applyTransformation a alterTransformation[i]
-				aa = #()
-				for j = 1 to id.count do
+				m = checkAppearance a
+				if m then
 				(
-					append aa a.Item[id[j]]
-				)
-				if (appendUnique alternative aa) then
-				(
-					print ""
-					print ""
-					printAppearance a
+					str = ""
+					for ii = 1 to ops.count do
+					(
+						str += moves[ops[ii]]
+					)
+					str += alterMoves[i]
+					print str
+					match = true
+					exit
 				)
 			)
 			
@@ -238,7 +240,7 @@ rollout ro1 "" width:650 height:400
 		viewport.setType #view_top
 		viewport.setCamera obCam
 		
-		local file = openFile @"C:\Program Files\Autodesk\3ds Max 2012\Scripts\solve\t_2+3.txt"
+		local file = openFile @"C:\Program Files\Autodesk\3ds Max 2012\Scripts\solve\t_2.txt"
 		local file_line = #()
 		local num = 1
 		while not (eof file) do

@@ -226,7 +226,7 @@ fn visualizeAppearances =
 	for i = 7 to transformation.count do
 	(
 		visualizeAppearance ori transformation[i] [rowC * 70,-40 * (mod (i+5) 12),0] true
-		if mod (i+5) 12 == 0 do
+		if mod (i+6) 12 == 0 do
 			rowC += 1
 	)
 )
