@@ -1,19 +1,34 @@
 fn printAppearance appear =
 (
 	format "% % % % %\n%   %   %\n% % % % %\n" \
-	appear.Item["1"] \
-	appear.Item["2"] \
-	appear.Item["3"] \
-	appear.Item["A"] \
-	appear.Item["D"] \
-	appear.Item["4"] \
-	appear.Item["6"] \
-	appear.Item["E"] \
-	appear.Item["7"] \
-	appear.Item["8"] \
-	appear.Item["9"] \
-	appear.Item["C"] \
-	appear.Item["F"]
+	appear.Item["1"][1] \
+	appear.Item["2"][1] \
+	appear.Item["3"][1] \
+	appear.Item["A"][1] \
+	appear.Item["D"][1] \
+	appear.Item["4"][1] \
+	appear.Item["6"][1] \
+	appear.Item["E"][1] \
+	appear.Item["7"][1] \
+	appear.Item["8"][1] \
+	appear.Item["9"][1] \
+	appear.Item["C"][1] \
+	appear.Item["F"][1]
+	
+	format "% % % % %\n%   %   %\n% % % % %\n" \
+	appear.Item["1"][2] \
+	appear.Item["2"][2] \
+	appear.Item["3"][2] \
+	appear.Item["A"][2] \
+	appear.Item["D"][2] \
+	appear.Item["4"][2] \
+	appear.Item["6"][2] \
+	appear.Item["E"][2] \
+	appear.Item["7"][2] \
+	appear.Item["8"][2] \
+	appear.Item["9"][2] \
+	appear.Item["C"][2] \
+	appear.Item["F"][2]
 )
 
 fn getStepArray raw =
@@ -44,7 +59,7 @@ fn appendUnique a obj =
 		local d = true
 		for ii = 1 to a[i].count do
 		(
-			if obj[ii] != a[i][ii] do
+			if obj[ii].id != a[i][ii].id do
 				d = false
 		)
 		if d == true do
@@ -58,43 +73,141 @@ fn initializeAppearance =
 (
 	local appearance = dotNetObject "System.Collections.Hashtable"
 
-	for i = 1 to id.count do
+	for i = 1 to id_a.count do
 	(
-		appearance.Add id[i] puzzleConfig.Item["Start"][i]
+		appearance.Add id_a[i] puzzleConfig.Item["Start"][i]
 	)
 
 	return appearance
 )
 
-fn addTransformations =
+fn readCell fLine =
 (
-	stepFormations[1] = #()
-	for i = 1 to formation.count do
-	(
-		if method[i].use then
-		(
-			local form = dotNetObject "System.Collections.Hashtable"
-			for ii = 1 to formation[i].count do
-			(
-				form.Add formation[i][ii][1] formation[i][ii][2]
-			)
-			append moves ("--" + i as string)
-			append transformation form
--- 			append stepFormations[1] ("--" + i as string)
-		)
-		else
-		(
-			append transformation undefined
-		)
-	)
+	ss = fLine as stringstream
+	id = readToken ss
+	mat = substring fLine 3 (fLine.count - 2)
+	
+	return #(id,mat)
 )
 
-fn applyTransformation old form =
+fn readConfiguration =
+(
+	file = openFile @"C:\Program Files\Autodesk\3ds Max 2012\Scripts\solve\config.txt"
+	file_line = #()
+	num = 1
+	while not (eof file) do
+	(
+		file_line[num] = readLine file
+		num += 1
+	)
+	start = #()
+	for i = 2 to 14 do
+	(
+		info = readCell file_line[i]
+		append start #(info[1],info[2])
+	)
+	puzzleConfig.Add "Start" start
+	finalCover = #()
+	for i = 16 to 28 do
+	(
+		info = readCell file_line[i]
+		append finalCover #(info[1],info[2])
+	)
+	puzzleConfig.Add "FinalCover" finalCover
+	finalCross = #()
+	for i = 30 to 36 do
+	(
+		info = readCell file_line[i]
+		append finalCross #(info[1],info[2])
+	)
+	puzzleConfig.Add "FinalCross" finalCross
+	free file
+)
+
+fn addTransformations =
+(
+	file = openFile @"C:\Program Files\Autodesk\3ds Max 2012\Scripts\solve\baseTransformation.txt"
+	file_line = #()
+	num = 1
+	while not (eof file) do
+	(
+		file_line[num] = readLine file
+		num += 1
+	)
+	for i = 1 to (file_line.count / 4) do
+	(
+		local form = dotNetObject "System.Collections.Hashtable"
+		for row = 1 to 3 do
+		(
+			for col = 1 to 3 do
+			(
+				local l = file_line[(i-1) * 4 + 1 + row]
+				local c = l[(col - 1) * 2 + 1]
+				local id = (row - 1) * 3 + col
+				if not (row == 2 and col == 2) do
+					form.Add (id as string) c
+			)
+		)
+		local id_c = #("A","C","D","E","F")
+		local l1 = file_line[(i-1) * 4 + 2]
+		form.Add "A" l1[l1.count - 2]
+		local l2 = file_line[(i-1) * 4 + 4]
+		form.Add "C" l2[l2.count - 2]
+		for row = 1 to 3 do
+		(
+			local l = file_line[(i-1) * 4 + 1 + row]
+			local c = l[l.count]
+			local id = id_c[row + 2]
+			form.Add id c
+		)
+
+		append baseTransformation form
+	)
+	free file
+)
+
+fn applyTransformation old index =
 (
 	local new = dotNetObject "System.Collections.Hashtable"
-	for i = 1 to id.count do
+	local form = baseTransformation[index]
+	local angles = #(90,180,-90,90,180,-90)
+	if index as Integer <= 3 then
 	(
-		new.Add id[i] old.Item[form.Item[id[i]]]
+		for i = 1 to id_t.count do
+		(
+			m = execute old.Item[form.Item[id_t[i]][1]][2]
+			m = rotateZ m angles[index]
+			new.Add id_t[i] \
+			#(old.Item[form.Item[id_t[i]][1]][1],m as string)
+		)
+		for i = 1 to id_a.count do
+		(
+			if findItem id_t id_a[i] == 0 then
+			(
+				m = old.Item[form.Item[id_a[i]][1]][2]
+				new.Add id_a[i] \
+				#(old.Item[form.Item[id_a[i]][1]][1],m)
+			)
+		)
+	)
+	else
+	(
+		for i = 1 to id_r.count do
+		(
+			m = execute old.Item[form.Item[id_r[i]][1]][2]
+			m = rotateX m angles[index]
+			new.Add id_r[i] \
+			#(old.Item[form.Item[id_r[i]][1]][1],m as string)
+		)
+		for i = 1 to id_a.count do
+		(
+			if findItem id_r id_a[i] == 0 then
+			(
+				m = old.Item[form.Item[id_a[i]][1]][2]
+				new.Add id_a[i] \
+				#(old.Item[form.Item[id_a[i]][1]][1],m)
+			)
+		)
 	)
 
 	return new
@@ -189,23 +302,26 @@ fn visualizeAppearance last form pos tile =
 		)
 	local norCol = [214,228,153]
 	local altCol = [255,90,0]
-	for i = 1 to id.count do
+	for i = 1 to id_a.count do
 	(
-		t = text text:form.Item[id[i]] \
+		t = text text:form.Item[id_a[i]][1] \
 		size:10 wirecolor:norCol pos:(pos+tPos[i])
 		if not tile then
 		(
-			if form.Item[id[i]] == id[i] then
+			if form.Item[id_a[i]][1] == id_a[i] then
 			(
 				t.wirecolor = [0,150,200]
 			)
+			m = execute form.Item[id_a[i]][2]
+			m.row4 = t.pos
+			t.transform = m
 		)
 		else
 		(
-			if form.Item[id[i]] != last.Item[id[i]] then
+			if form.Item[id_a[i]] != last.Item[id_a[i]] then
 			(
 				t.wirecolor = altCol
-				local index = findOriIndex last form.Item[id[i]]
+				local index = findOriIndex last form.Item[id_a[i]]
 				local oldPos = cPos[index]
 				ss = SplineShape wirecolor:[255,255,0] pos:(pos+oldPos-[0,4,0])
 				addNewSpline ss
