@@ -308,13 +308,14 @@ fn visualizeAppearance last form pos tile =
 		size:10 wirecolor:norCol pos:(pos+tPos[i])
 		if not tile then
 		(
-			if form.Item[id_a[i]][1] == id_a[i] then
-			(
-				t.wirecolor = [0,150,200]
-			)
 			m = execute form.Item[id_a[i]][2]
 			m.row4 = t.pos
 			t.transform = m
+			ms = "(" + form.Item[id_a[i]][2] + ")"
+			if form.Item[id_a[i]][1] == id_a[i] and ms == (matrix3 1) as string then
+			(
+				t.wirecolor = [0,150,200]
+			)
 		)
 		else
 		(
