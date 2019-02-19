@@ -41,7 +41,36 @@ rollout ro1 "" width:650 height:400
 	button btn1 "" pos:[70,120] width:80 height:30
 	on btn1 pressed do
 	(
-		
+		for i = 1 to stepFormations[1].count do
+		(
+			if tag[i] == "CEA" then
+			(
+				for ii = 1 to transformation.count do
+				(
+					if tag[ii] == "AE" then
+					(
+						for iii = 1 to transformation.count do
+						(
+							if tag[iii] == "CE" then
+							(
+								appear = initializeAppearance()
+								mvs = moves[i] + moves[ii] + moves[iii]
+								steps = getStepArray mvs
+								for j = 1 to steps.count do
+								(
+									appear = applyTransformation appear (steps[j] as integer)
+								)
+								if checkAppearance appear then
+								(
+									print mvs
+									printAppearance appear
+								)
+							)
+						)
+					)
+				)
+			)
+		)
 	)
 	
 	include "scripts\\solve\\ro_ops.ms"

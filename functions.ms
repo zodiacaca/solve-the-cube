@@ -241,12 +241,12 @@ fn checkAppearance appear =
 	local alt = puzzleConfig.Item["FinalCover"]
 	if puzzleConfig.Item["CrossOnly"] then
 	(
-		id = #("2","4","6","8","A","C","E")
+		id_a = #("2","4","6","8","A","C","E")
 		alt = puzzleConfig.Item["FinalCross"]
 	)
-	for i = 1 to id.count do
+	for i = 1 to id_a.count do
 	(
-		if appear.Item[id[i]] != alt[i] do
+		if appear.Item[id_a[i]][1] != alt[i][1] do
 			return false
 	)
 
@@ -311,8 +311,7 @@ fn visualizeAppearance last form pos tile =
 			m = execute form.Item[id_a[i]][2]
 			m.row4 = t.pos
 			t.transform = m
-			ms = "(" + form.Item[id_a[i]][2] + ")"
-			if form.Item[id_a[i]][1] == id_a[i] and ms == (matrix3 1) as string then
+			if form.Item[id_a[i]][1] == id_a[i] and form.Item[id_a[i]][2] == (matrix3 1) as string then
 			(
 				t.wirecolor = [0,150,200]
 			)
