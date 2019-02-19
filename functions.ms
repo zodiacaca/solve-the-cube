@@ -339,10 +339,10 @@ fn visualizeAppearances =
 (
 	local ori = initializeAppearance()
 	local rowC = 0
-	for i = 7 to transformation.count do
+	for i = 1 to transformation.count do
 	(
-		visualizeAppearance ori transformation[i] [rowC * 70,-40 * (mod (i+5) 12),0] true
-		if mod (i+6) 12 == 0 do
+		visualizeAppearance undefined transformation[i] [rowC * 70,-40 * (mod (i-1) 12),0] false
+		if mod i 12 == 0 do
 			rowC += 1
 	)
 )

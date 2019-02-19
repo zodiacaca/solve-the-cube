@@ -13,6 +13,7 @@ alter = #()
 baseTransformation = #()
 transformation = #()
 alterTransformation = #()
+tag = #()
 stepFormations = #()
 obCam = undefined
 
@@ -91,6 +92,26 @@ rollout ro1 "" width:650 height:400
 				local c = l[l.count]
 				local id = id_c[row + 2]
 				form.Add id c
+			)
+			
+			if form.Item["A"] != "A" and form.Item["C"] != "C" and form.Item["E"] != "E" then
+			(
+				if form.Item["E"] == "A" then
+				(
+					append tag "CEA"
+				)
+				else
+				(
+					append tag "EAC"
+				)
+			)
+			else if form.Item["A"] == "A" and form.Item["C"] != "C" and form.Item["E"] != "E" then
+			(
+				append tag "CE"
+			)
+			else if form.Item["A"] != "A" and form.Item["C"] == "C" and form.Item["E"] != "E" then
+			(
+				append tag "AE"
 			)
 
 			append moves m
